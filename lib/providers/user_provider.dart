@@ -32,4 +32,9 @@ class UserProvider with ChangeNotifier {
     _usersList.add(user);
     notifyListeners();
   }
+
+  Future updateUser(UserModel user) async {
+    await services.updateUser(user);
+    notifyListeners();
+  }
 }

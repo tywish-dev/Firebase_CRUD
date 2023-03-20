@@ -1,3 +1,4 @@
+import 'package:firebase_test/pages/update.dart';
 import '/models/user_model.dart';
 import '/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -110,7 +111,12 @@ class SingleUser extends StatelessWidget {
                   style: const ButtonStyle(
                     splashFactory: NoSplash.splashFactory,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UpdatePage(user: user)));
+                  },
                   child: const Text('Update'),
                 ),
               ),
