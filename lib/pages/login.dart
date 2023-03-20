@@ -3,6 +3,8 @@ import 'package:confetti/confetti.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
+import '../widgets/custom_button.dart';
+import '../widgets/custom_text_field.dart';
 import '/pages/home.dart';
 import '/pages/register.dart';
 import 'package:flutter/material.dart';
@@ -17,19 +19,18 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late TextEditingController usernameController;
   late TextEditingController passwordController;
-  late ConfettiController confettiController;
+
   @override
   void initState() {
     usernameController = TextEditingController(text: "sametylmz621@gmail.com");
     passwordController = TextEditingController(text: "123456");
-    confettiController =
-        ConfettiController(duration: const Duration(seconds: 100));
+
+    Navigator.popUntil(context, (route) => true);
     super.initState();
   }
 
   @override
   void dispose() {
-    confettiController.dispose();
     super.dispose();
   }
 
@@ -45,41 +46,38 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               SizedBox(
                 width: 300,
-                child: _textField(usernameController, "Username", false),
+                child: CustomTextField(
+                    controller: usernameController,
+                    label: "Username",
+                    obsecure: false),
               ),
               SizedBox(
                 width: 300,
-                child: _textField(passwordController, "Password", true),
+                child: CustomTextField(
+                    controller: passwordController,
+                    label: "Password",
+                    obsecure: true),
               ),
-              _button(() async {
-                FirebaseAuth auth = FirebaseAuth.instance;
-                try {
-                  ConfettiWidget(
-                    confettiController: confettiController,
-                    blastDirectionality: BlastDirectionality.explosive,
-                    colors: const [
-                      Colors.green,
-                      Colors.blue,
-                      Colors.pink,
-                      Colors.orange,
-                      Colors.purple
-                    ],
-                    createParticlePath: drawStar,
-                  );
-                  UserCredential credential =
-                      await auth.signInWithEmailAndPassword(
-                          email: usernameController.text,
-                          password: passwordController.text);
-                  await userProvider.setUsersList();
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomePage()));
-                  print(credential.toString());
-                } catch (e) {
-                  print(e.toString());
-                }
-              }, "Login"),
+              CustomButton(
+                  onPressed: () async {
+                    FirebaseAuth auth = FirebaseAuth.instance;
+                    try {
+                      UserCredential credential =
+                          await auth.signInWithEmailAndPassword(
+                              email: usernameController.text,
+                              password: passwordController.text);
+                      await userProvider.setUsersList();
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HomePage(
+                                    auth: auth,
+                                  )));
+                    } catch (e) {
+                      print(e.toString());
+                    }
+                  },
+                  text: "Login"),
               GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -114,45 +112,5 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }
-
-  Widget _textField(
-      TextEditingController controller, String label, bool obsecure) {
-    return TextField(
-      controller: controller,
-      obscureText: obsecure,
-      decoration: InputDecoration(
-        labelText: label,
-        border: const OutlineInputBorder(),
-      ),
-    );
-  }
-
-  Widget _button(Function() onPressed, String text) {
-    return ElevatedButton(onPressed: onPressed, child: Text(text));
-  }
-
-  Path drawStar(Size size) {
-    // Method to convert degree to radians
-    double degToRad(double deg) => deg * (pi / 180.0);
-
-    const numberOfPoints = 5;
-    final halfWidth = size.width / 2;
-    final externalRadius = halfWidth;
-    final internalRadius = halfWidth / 2.5;
-    final degreesPerStep = degToRad(360 / numberOfPoints);
-    final halfDegreesPerStep = degreesPerStep / 2;
-    final path = Path();
-    final fullAngle = degToRad(360);
-    path.moveTo(size.width, halfWidth);
-
-    for (double step = 0; step < fullAngle; step += degreesPerStep) {
-      path.lineTo(halfWidth + externalRadius * cos(step),
-          halfWidth + externalRadius * sin(step));
-      path.lineTo(halfWidth + internalRadius * cos(step + halfDegreesPerStep),
-          halfWidth + internalRadius * sin(step + halfDegreesPerStep));
-    }
-    path.close();
-    return path;
   }
 }

@@ -1,3 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_test/pages/add.dart';
+import 'package:firebase_test/pages/login.dart';
 import 'package:firebase_test/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -5,7 +8,8 @@ import '/widgets/single_user.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final FirebaseAuth auth;
+  const HomePage({super.key, required this.auth});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,10 @@ class HomePage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const AddPage()));
+            },
             icon: const Icon(Icons.add),
             color: Colors.black,
             splashColor: Colors.transparent,
@@ -37,7 +44,11 @@ class HomePage extends StatelessWidget {
             iconSize: 30,
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              auth.signOut();
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()));
+            },
             icon: const Icon(Icons.logout),
             color: Colors.black,
             splashColor: Colors.transparent,

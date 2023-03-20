@@ -1,17 +1,12 @@
-import 'package:firebase_test/models/user_model.dart';
-import 'package:firebase_test/providers/user_provider.dart';
+import '/models/user_model.dart';
+import '/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SingleUser extends StatefulWidget {
+class SingleUser extends StatelessWidget {
   final UserModel user;
   const SingleUser({super.key, required this.user});
 
-  @override
-  State<SingleUser> createState() => _SingleUserState();
-}
-
-class _SingleUserState extends State<SingleUser> {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
@@ -25,7 +20,7 @@ class _SingleUserState extends State<SingleUser> {
           ),
           CircleAvatar(
             backgroundColor: Colors.purple.shade900,
-            backgroundImage: NetworkImage(widget.user.image, scale: 0.2),
+            backgroundImage: NetworkImage(user.image, scale: 0.2),
             radius: 36,
           ),
           const SizedBox(
@@ -35,11 +30,11 @@ class _SingleUserState extends State<SingleUser> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Name: ${widget.user.name}',
+                'Name: ${user.name}',
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                'Age: ${widget.user.age}',
+                'Age: ${user.age}',
                 style: const TextStyle(fontSize: 12),
               ),
             ],
@@ -77,10 +72,8 @@ class _SingleUserState extends State<SingleUser> {
                                   splashFactory: NoSplash.splashFactory,
                                 ),
                                 onPressed: () {
-                                  setState(() {
-                                    userProvider
-                                        .deleteUserbyId(widget.user.id!);
-                                  });
+                                  userProvider.deleteUserbyId(user.id!);
+
                                   Navigator.pop(context);
                                 },
                                 child: const Text('Yes'),

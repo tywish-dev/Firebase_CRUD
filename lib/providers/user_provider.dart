@@ -26,4 +26,10 @@ class UserProvider with ChangeNotifier {
     setUsersList();
     notifyListeners();
   }
+
+  Future postUser(UserModel user) async {
+    await services.postUser(user);
+    _usersList.add(user);
+    notifyListeners();
+  }
 }
