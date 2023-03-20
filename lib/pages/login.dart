@@ -1,7 +1,8 @@
 import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_test/pages/register.dart';
+import '/pages/home.dart';
+import '/pages/register.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -18,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     usernameController = TextEditingController(text: "sametylmz621@gmail.com");
-    passwordController = TextEditingController(text: "123");
+    passwordController = TextEditingController(text: "123456");
     confettiController =
         ConfettiController(duration: const Duration(seconds: 100));
     super.initState();
@@ -66,7 +67,10 @@ class _LoginPageState extends State<LoginPage> {
                       await auth.signInWithEmailAndPassword(
                           email: usernameController.text,
                           password: passwordController.text);
-
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomePage()));
                   print(credential.toString());
                 } catch (e) {
                   print(e.toString());
@@ -85,7 +89,6 @@ class _LoginPageState extends State<LoginPage> {
                         const end = Offset.zero;
                         final tween = Tween(begin: begin, end: end);
                         final offsetAnimation = animation.drive(tween);
-
                         return SlideTransition(
                           position: offsetAnimation,
                           child: child,

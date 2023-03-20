@@ -20,7 +20,10 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         useMaterial3: true,
-        primarySwatch: Colors.blue,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        primarySwatch: Colors.purple,
       ),
       home: const LoginPage(),
     );
