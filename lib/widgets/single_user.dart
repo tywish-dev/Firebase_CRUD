@@ -27,11 +27,11 @@ class SingleUser extends StatelessWidget {
             children: [
               Text(
                 'Name: ${user.name}',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
                 'Age: ${user.age}',
-                style: TextStyle(fontSize: 12),
+                style: const TextStyle(fontSize: 12),
               ),
             ],
           ),

@@ -1,4 +1,7 @@
-import 'package:firebase_test/widgets/single_user.dart';
+import 'package:firebase_test/providers/user_provider.dart';
+import 'package:provider/provider.dart';
+
+import '/widgets/single_user.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -6,6 +9,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -50,10 +54,12 @@ class HomePage extends StatelessWidget {
               Flexible(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: 30,
+                  itemCount: userProvider.getUsersList.length,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    return SingleUser();
+                    return SingleUser(
+                      user: userProvider.getUsersList[index],
+                    );
                   },
                 ),
               )

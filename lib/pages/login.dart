@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import '../providers/user_provider.dart';
 import '/pages/home.dart';
 import '/pages/register.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       body: Center(
         child: SizedBox(
@@ -67,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                       await auth.signInWithEmailAndPassword(
                           email: usernameController.text,
                           password: passwordController.text);
+                  await userProvider.setUsersList();
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
