@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_test/register.dart';
+import 'package:firebase_test/pages/register.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {

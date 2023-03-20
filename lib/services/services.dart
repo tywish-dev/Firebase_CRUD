@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:firebase_test/models/user_model.dart';
+import '/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class Services {
