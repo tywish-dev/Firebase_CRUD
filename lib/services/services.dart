@@ -31,8 +31,11 @@ class Services {
   }
 
   Future<UserModel?> postUser(UserModel user) async {
-    http.Response response = await http.post(getUrl("users"),
-        body: user.toJson(), headers: {'Content-Type': "application/json"});
+    http.Response response = await http.post(
+      getUrl("users"),
+      body: user.toJson(),
+      headers: {'Content-Type': "application/json"},
+    );
     if (response.statusCode >= 200 && response.statusCode < 300) {
       var data = jsonDecode(response.body);
       user.id = data["name"];
@@ -43,8 +46,11 @@ class Services {
   }
 
   Future<bool> updateUser(UserModel user) async {
-    http.Response response = await http.put(getUrl("users/${user.id}"),
-        body: user.toJson(), headers: {'Content-Type': "application/json"});
+    http.Response response = await http.put(
+      getUrl("users/${user.id}"),
+      body: user.toJson(),
+      headers: {'Content-Type': "application/json"},
+    );
     return response.statusCode >= 200 && response.statusCode < 300;
   }
 
